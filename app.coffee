@@ -1,5 +1,7 @@
 express = require 'express'
 mongoose = require 'mongoose'
+postsRoutes = require './routes/postsRoutes'
+postModels = require './models/posts'
 
 app = module.exports = express.createServer();
 
@@ -25,50 +27,10 @@ app.configure 'development', () ->
 app.configure 'production', () ->
   app.use express.errorHandler()
 
-#models
-Post = mongoose.model 'Post', new mongoose.Schema({
-  title: String,
-  body: String,
-  slug: String
-}, { collection : 'posts' })
+#routes
+Post = postModels.Post
+postsRoutes(app, Post)
 
-# Routes
-app.get '/api/posts', (req, res) ->
-  return Post.find( (err, posts) ->
-    	return res.json(posts)
-  )
-
-app.get '/api/posts/:id', (req, res) ->
-  return Post.findById(req.params.id, (err, post) ->
-    if (!err)
-      return res.json(post)
-  )
-
-app.post '/api/posts', (req, res) ->
-		console.log req.body
-  post = new Post({
-    title: req.body.title,
-    body: req.body.body,
-    slug: req.body.title.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase()
-  })
-  post.save((err) ->
-    if (!err)
-      console.log "Post created"
-  )
-  return res.json(post)
-
-app.put '/api/posts/:id', (req, res) ->
-	Post.findById(req.params.id, (err, post) ->
-	  post.title = req.body.title
-	  post.body = req.body.body
-	  post.slug = req.body.title.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase()	
-		post.save((err) ->
-			if (!err)
-				console.log " Post updated"
-			return res.json(post)
-		)
-	)
-	
-
+# Starting app
 app.listen 3000
 console.log "Express server listening on port #{app.address().port}"
