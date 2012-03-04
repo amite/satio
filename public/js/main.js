@@ -7,17 +7,10 @@ require.config({
     Backbone: 'libs/backbone/backbone',
     bootstrap: 'libs/twitter-bootstrap/bootstrap.min',
     text: 'libs/require/text',
-    order: 'libs/require/order'
+    order: 'libs/require/order',
+    cs: 'libs/require/cs'
   }
 });
-
-require([
-  // Load our app module and pass it to our definition function
-  'app',
-  // Some plugins have to be loaded in order due to their non AMD compliance
-  // Because these scripts are not "modules" they do not pass any values to the definition function below
-], function(App){
-  // The "app" dependency is passed in as "App"
-  // Again, the other dependencies passed in are not "AMD" therefore don't pass a parameter to this function
-  App.initialize();
+require(['cs!app'], function(App) {
+    App.initialize();
 });

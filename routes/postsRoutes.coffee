@@ -20,7 +20,7 @@ module.exports = (app, Post) ->
     })
     post.save((err) ->
       if (!err)
-        console.log "Post created"
+        console.log "Post " + post.id + " created"
     )
     return res.json(post)
 
@@ -28,7 +28,7 @@ module.exports = (app, Post) ->
   	Post.findById(req.params.id, (err, post) ->
   	  post.title = req.body.title
   	  post.body = req.body.body
-  	  post.slug = req.body.title.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase()	
+  	  post.slug = req.body.title.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase()
   		post.save((err) ->
   			if (!err)
   				console.log " Post updated"

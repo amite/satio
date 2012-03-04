@@ -1,7 +1,8 @@
 express = require 'express'
 mongoose = require 'mongoose'
+
 postsRoutes = require './routes/postsRoutes'
-postModels = require './models/posts'
+postModel = require './models/post'
 
 app = module.exports = express.createServer();
 
@@ -13,13 +14,13 @@ mongoose.connection.on "open", ->
 # Configuration
 
 app.configure () ->
+    app.use express.logger({ format: ':method :url'})
     app.use express.bodyParser()
     app.use express.methodOverride()
     app.use express.cookieParser()
     app.use express.session({ secret: 'satio'})
     app.use app.router
     app.use express.static "#{__dirname}/public"
-    app.use express.logger({ format: ':method :url'})
 
 app.configure 'development', () ->
   app.use express.errorHandler dumpExceptions: true, showStack: true
@@ -28,7 +29,7 @@ app.configure 'production', () ->
   app.use express.errorHandler()
 
 #routes
-Post = postModels.Post
+Post = postModel.Post
 postsRoutes(app, Post)
 
 # Starting app
