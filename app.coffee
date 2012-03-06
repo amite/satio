@@ -1,7 +1,9 @@
 express = require 'express'
 mongoose = require 'mongoose'
+require 'express-namespace'
 
-postsRoutes = require './routes/postsRoutes'
+postsRoutes = require './routes/posts'
+admin = require './routes/admin'
 postModel = require './models/post'
 
 app = module.exports = express.createServer();
@@ -42,7 +44,7 @@ app.configure 'production', () ->
   app.use express.errorHandler()
 
 #routes
-posts(app, postModel.Post)
+postsRoutes(app, postModel.Post)
 admin(app, postModel.Post, postModel.User)
 
 # Starting app
