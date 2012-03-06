@@ -7,7 +7,7 @@ module.exports = (app, Post) ->
     )
 
   app.get '/api/posts/:id', (req, res) ->
-    return Post.findById(req.params.id, (err, post) ->
+    return Post.find({ slug: req.params.id }, (err, post) ->
       if (!err)
         return res.json(post)
     )

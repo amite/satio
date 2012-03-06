@@ -8,8 +8,8 @@ define [
       body: "Default Body"
 
     url: ->
-      if @_id
-        '/api/posts/' +  @slug
+      if @get('_id')
+        '/api/posts/' +  @get('slug')
       else
         '/api/posts'
 

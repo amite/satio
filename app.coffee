@@ -19,17 +19,21 @@ mongoose.connection.on "open", ->
 
 # Configuration
 app.configure () ->
-    app.use express.logger({ format: ':method :url'})
+    app.use express.logger format: ':method :url'
     app.use express.bodyParser()
     app.use express.methodOverride()
     app.use express.cookieParser()
-    app.use express.session({
-          secret: '076ee61d63aa10a125ea872411e433b9',
-          maxAge: new Date(Date.now() + 3600000),
-          store: new mongoStore({ db: db })
-    })
+    app.use express.session
+      secret: '076ee61d63aa10a125ea872411e433b9'
+      maxAge: new Date(Date.now() + 3600000)
+      store: new mongoStore { db: db }
     app.use app.router
     app.use express.static "#{__dirname}/public"
+    app.set 'views', __dirname + '/views'
+    app.register '.coffee', require 'coffeekup'
+    app.set 'view engine', 'coffee'
+    app.set 'view options', layout: false
+
 
 app.configure 'development', () ->
   app.use express.errorHandler dumpExceptions: true, showStack: true
@@ -38,8 +42,8 @@ app.configure 'production', () ->
   app.use express.errorHandler()
 
 #routes
-Post = postModel.Post
-postsRoutes(app, Post)
+posts(app, postModel.Post)
+admin(app, postModel.Post, postModel.User)
 
 # Starting app
 app.listen process.env.PORT || 3000
