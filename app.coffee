@@ -42,5 +42,5 @@ Post = postModel.Post
 postsRoutes(app, Post)
 
 # Starting app
-app.listen 3000
+app.listen process.env.PORT || 3000
 console.log "Express server listening on port #{app.address().port}"
