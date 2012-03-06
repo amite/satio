@@ -8,8 +8,8 @@
     "type": "git",
     "url": "git://github.com/alduro/satio.git"
   },
-  "engines": {
-    "node": "~0.4.11"
+  "engine": {
+    "node": ">= 0.4.11"
   },
   "dependencies": {
   	},
