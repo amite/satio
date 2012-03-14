@@ -17,7 +17,7 @@
       "coffee-script": "1.2.x",
       "express" : "2.5.x",
       "express-namespace" : "0.0.4",
-      "express-expose" : "0.0.2",
+      "express-expose" : "0.2.2",
       "connect-assets" : "2.1.8",
       "stylus" : "0.24.0",
       "nib" : "0.3.2",
