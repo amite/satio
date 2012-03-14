@@ -9,7 +9,7 @@
     "url": "git://github.com/alduro/satio.git"
   },
   "engines": {
-    "node": ">= 0.4.11"
+    "node": ">= 0.4.12"
   },
   "dependencies": {
   	},
