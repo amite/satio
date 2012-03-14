@@ -12,5 +12,6 @@ require.config({
   }
 });
 require(['cs!app'], function(App) {
+    console.log('Starting application');
     App.initialize();
 });
