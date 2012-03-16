@@ -38,7 +38,7 @@ controller.loadUser = (req, res, next) ->
   else
     if (req.session.user_id)
       User = db.main.model('User')
-      User.findById(req.session.user_id, (err, user) ->
+      User.find({ '_id': req.session.user_id }, (err, user) ->
         if (user)
           req.currentUser = user
           next()

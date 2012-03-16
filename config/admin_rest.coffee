@@ -15,8 +15,8 @@ module.exports = (_app) ->
 # Login routes
 # render login form
 controller.login = (req, res) ->
-  User = db.main.model('User')
-  res.render 'admin/login', { user: new User(), title: 'Ingresar' }
+  # User = db.main.model('User')
+  res.render 'admin/login', { title: 'Ingresar', user: req.session.user_id }
 
 # login user
 controller.session = (req, res) ->
@@ -30,7 +30,8 @@ controller.session = (req, res) ->
         loginToken.save( ->
           res.cookie('logintoken', loginToken.cookieValue, { expires: new Date(Date.now() + 2 * 604800000), path: '/' })
         )
-      res.redirect '/'
+      req.flash 'success', 'Successfully logged in!' 
+      res.redirect '/admin/posts'
     else
       req.flash 'error', 'Login failed, try again'
       res.redirect '/admin/login'
@@ -63,14 +64,14 @@ controller.createUser = (req, res) ->
   user = new User(req.body.user)
 
   userSaveFailed = ->
-    req.flash('error', 'Saving user failed')
+    req.flash 'error', 'Saving user failed'
     res.render 'users/create', { user: user }
 
   user.save( (err) ->
     if (err) 
       userSaveFailed()
-    req.flash('info', 'User has been saved!')
-    res.redirect '/'
+    req.flash 'success', 'User has been saved!'
+    res.redirect 'admin/'
   )
 
 ##########################################################################
@@ -78,15 +79,16 @@ controller.createUser = (req, res) ->
 #
 
 controller.index = (req, res, next) ->
+  BlogPost = db.main.model('BlogPost')
   #  expose pusher key
-  res.expose 
+  res.expose
       app_key   : req.app.set('pusher_key') 
       channel   : 'blog_post'
       events    : 'post'
     , 'PUSHER'
 
   # render template
-  res.render 'home', { posts: db.posts.posts() }
+  res.render 'admin/',{ title:'Posts listing', posts: BlogPost.posts,  user: req.session.user_id  }
 
 ##########################################################################
 # NEW POST

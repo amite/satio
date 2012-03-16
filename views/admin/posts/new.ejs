@@ -1,0 +1,17 @@
+div.wrap
+    div.left
+     p
+      form(action= '/create', method= 'post', id= 'create')
+        fieldset
+          p
+            div.label
+              label Title
+            div.field
+              input(type = 'text', name= 'post[title]')
+          p
+            div.label
+              label Body
+            div.field
+              textarea(name = 'post[body]')
+          div
+            input.button(type = 'submit', value = 'Save!')

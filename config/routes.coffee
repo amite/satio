@@ -8,16 +8,16 @@ module.exports = (app) ->
   db = app.set('db')
 
   # Load Root
+  app.get '/admin', helpers.loadUser, admin.index
 
-  app.get '/admin/', blog.index
-
-  # Load Admin Controller + Routes
+  # User + Session
   app.get '/admin/login', admin.login
   app.post '/admin/session', admin.session
   app.get '/admin/logout', helpers.loadUser, admin.logout
   app.get '/admin/user/new', helpers.loadUser, admin.newUser
   app.post '/admin/user/create', helpers.loadUser,  admin.createUser
 
+  # Posts
   app.get  '/admin/posts', helpers.loadUser, admin.index
   app.get  '/admin/post/new', helpers.loadUser, admin.newPost
   app.post '/admin/post/create', helpers.loadUser, admin.createPost

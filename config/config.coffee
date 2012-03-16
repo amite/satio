@@ -3,7 +3,8 @@
 #
 
 express   = require 'express'
-stylus    = require 'stylus'
+path      = require 'path'
+cons      = require 'consolidate'
 expose    = require 'express-expose'
 mongoose  = require 'mongoose'
 nib       = require 'nib'
@@ -33,26 +34,22 @@ module.exports = (app) ->
   # }
 
   # Configure expressjs
-
   app.configure ->
     app.use express.logger('\033[90m:method\033[0m \033[36m:url\033[0m \033[90m:response-time ms\033[0m')
+    # app.register '.html', require('ejs')
+    app.set 'views', __dirname + '/../views'
+    app.set 'view engine', 'ejs'
     app.use express.cookieParser()
     app.use express.bodyParser()
+    app.use express.methodOverride()
     app.use express.errorHandler({dumpException: true, showStack: true})
     app.use express.session
           secret: '076ee61d63aa10a125ea872411e433b9'
           maxAge: new Date(Date.now() + 3600000)
           store: new mongoStore { db: db_store }
     # app.use app.router
-    app.register '.html', require('ejs')
-    app.set 'views', __dirname + '/../views'
-    app.set 'view engine', 'html'
     app.use express.static __dirname + '/../public'
-      # .use(stylus.middleware(
-      # {
-      #   src: __dirname + '/../public',
-      #   compile: compile
-      # }))
+    app.dynamicHelpers { messages: require('express-messages-bootstrap') }
 
   # Save reference to database connection
   app.configure ->

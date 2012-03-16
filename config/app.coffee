@@ -40,7 +40,7 @@ module.exports = ->
 
   # Load error routes + pages
 
-  # errors(app)
+  errors(app)
 
   # Load hooks
 

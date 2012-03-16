@@ -8,8 +8,8 @@ module.exports = (app) ->
 
   # Catch all
 
-  # app.all '*', notFound = (req, res, next) ->
-  #    throw new NotFound
+  app.all '*', notFound = (req, res, next) ->
+     throw new NotFound
 
   # Load 404 page
   app.error (err, req, res, next) ->
