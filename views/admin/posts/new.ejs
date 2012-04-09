@@ -1,17 +1,26 @@
-div.wrap
-    div.left
-     p
-      form(action= '/create', method= 'post', id= 'create')
-        fieldset
-          p
-            div.label
+<div>
+  <div class="left">
+    <p>
+      <form action="/admon/post/create" method="post" id="create">
+        <fieldset>
+          <p>
+            <div class="label">
               label Title
+            </div>
             div.field
               input(type = 'text', name= 'post[title]')
-          p
+          </p>
+          <p>
             div.label
               label Body
             div.field
               textarea(name = 'post[body]')
-          div
-            input.button(type = 'submit', value = 'Save!')
+          </p>
+          <div>
+            <button class="btn-primary" type="submit" value="Save!">Save!</button>
+          </div>
+        </fieldset>
+      </form>
+    </p>
+  </div>
+</div>

@@ -97,7 +97,7 @@ controller.index = (req, res, next) ->
 # GET render post creation form
 controller.newPost = (req, res) ->
   BlogPost = db.main.model('BlogPost')
-  res.render 'blogpost/create', { post: new BlogPost() }
+  res.render '/admin/posts/new', { post: new BlogPost(), user: req.session.user_id }
 
 ##########################################################################
 # CREATE POST
